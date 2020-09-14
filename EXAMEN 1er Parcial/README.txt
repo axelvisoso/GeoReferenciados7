@@ -1,0 +1,1 @@
+Examen Sistemas Georeferenciados1er ParcialINTEGRATES:Ronaldo Barrietos NegreteAxel Fernando Visoso PorrasMarco Antonio Lezcano Acosta

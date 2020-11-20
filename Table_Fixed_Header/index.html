@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <title>MARZ Dashboard</title>
+
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+
+    <link rel="icon" type="image/png" href="img/informacion.png"/>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+      integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+      crossorigin=""
+    />
+
+    <link rel="stylesheet" href="css/mapa.css" />
+    <link rel="stylesheet" href="css/pagina.css" />
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css"
+      rel="stylesheet"
+    />
+
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+    <script src="js/funcionEdo.js"></script>
+    <script src="js/funcion_clues.js"></script>
+
+    <script
+      src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+      integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+      crossorigin=""
+    ></script>
+  </head>
+
+  <body>
+    <nav class="navbar navbar-light bg-dark justify-content-center">
+      <span class="navbar-brand mb-0 h1" style="color: white"
+        >Información SARS</span>
+
+        <a class="navbar-brand" href="#">
+          <img src="img/logoMARZ.png" alt="Logo" style="width:150px;">
+        </a>
+        <a class="navbar-brand" href="#">
+          <img src="img/dashboard.png" alt="Logo" style="width:150px;">
+        </a>
+
+<!-- BOTON PRUEBA
+      <a
+        class="nav-link"
+        style="color: white"
+        href="#"
+        onclick="CargarDatosGraficosBar()"
+        >Prueba</a> --->
+
+    </nav>
+
+    <div class="container">
+      <div class="row">
+        <div id="mapid"></div>
+      </div>
+
+      <div class="row align-items-start">
+        <!-- // inicio del renglon -->
+
+        <div class="col-sm-4">
+          <!--Inicio de columna 1 r1 --->
+
+          <!--  //chart "DONA"-->
+          <div class="card">
+            <div class="card-body bg-secondary" id="chart" style="height: 240px;"></div>
+          </div>
+
+        </div>
+
+        <div class="col-md-auto">
+          <!--//ComboBox Multiple  Columna 2 r 1 --->
+
+          <div class="card">
+            <div class="card-body bg-dark">
+              <select
+                class="form-control"
+                multiple
+                id="idEstado"
+                name="idEstado"
+                onchange="seleccionaEstado()"
+              >
+                <option value="">--SELECCIONE UNA OPCION--</option>
+
+                <?php foreach($resultado as $dato): ?>
+
+                <option value="<?php echo $dato['id'] ?>">
+                  <?php echo $dato['DESCRIP'] ?>
+                </option>
+
+                <?php endforeach ?>
+              </select>
+            </div>
+          </div>
+
+          <table id="colorTabla" class="table table-striped-sm-4">
+            <!--    //Tabla de Estados -->
+            <thead>
+              <tr id="colorTabla" class="d-flex">
+                <th scope="col">ID</th>
+                <th scope="col-md-auto">ESTADO</th>
+                <th scope="col-md-auto">DESCRIPCIÓN</th>
+              </tr>
+            </thead>
+            <tbody id="contenido">
+              <tr id="colorTabla">
+                <?php foreach($resultado as $dato): ?>
+
+                <td class="cell"><?php echo $dato['id'] ?></td>
+
+                <td class="cell"><?php echo $dato['EDO'] ?></td>
+
+                <td class="cell"><?php echo $dato['DESCRIP'] ?></td>
+              </tr>
+              <?php endforeach ?>
+            </tbody>
+          </table>
+        </div>
+        <!--fin columna-->
+
+        <div class="col-sm-auto">
+          <!--inicio col 1 r 2 -->
+          <!--  //chart "BARRA"-->
+          <div class="card">
+            <div class="card-body bg-dark" id="barrita" style="width: 350px"></div>
+          </div>
+        </div>
+      </div>
+      <!--// fin renglon -->
+
+      <div class="row">
+        <!--renglon 2  inicio-->
+
+        <div class="col sm-4">
+          <!--columna 2 r 2 --->
+
+          <div class="card">
+            <div id="colorCard" class="card-body bg-dark">
+              <select
+                class="form-control"
+                multiple
+                id="idClues"
+                name="idClues"
+                onchange="seleccionaClues()"
+              >
+                <option value="">--SELECCIONE UNA OPCION--</option>
+
+                <?php foreach($resultado2 as $dato): ?>
+
+                <option value="<?php echo $dato['id'] ?>">
+                  <?php echo $dato['nombre_unidad'] ?>
+                </option>
+
+                <?php endforeach ?>
+              </select>
+            </div>
+          </div>
+
+          <table
+            class="table table-striped-sm-4"
+            style="height: 200px; width: 50px"
+          >
+            <!--    //Tabla de clues -->
+            <thead>
+              <tr id="colorTabla">
+                <th scope="col">ID</th>
+                <th scope="col">CLAVE</th>
+                <th scope="col">INSTITUCIÓN</th>
+                <th scope="col">ESTADO</th>
+                <th scope="col">JURIDICCIÓN</th>
+                <th scope="col">MUNICIPIO</th>
+                <th scope="col">LOCALIDAD</th>
+                <th scope="col">TIPO_ESTABLECIMIENTO</th>
+                <th scope="col">TIPOLOGIA</th>
+                <th scope="col">UNIDAD</th>
+              </tr>
+            </thead>
+            <tbody id="tabla2">
+              <tr id="colorTabla">
+                <?php foreach($resultado2 as $dato): ?>
+
+                <td class="cell"><?php echo $dato['id'] ?></td>
+
+                <td class="cell"><?php echo $dato['clave'] ?></td>
+
+                <td class="cell"><?php echo $dato['institucion'] ?></td>
+
+                <td class="cell"><?php echo $dato['EDO'] ?></td>
+
+                <td class="cell"><?php echo $dato['JUR'] ?></td>
+
+                <td class="cell"><?php echo $dato['MPO'] ?></td>
+
+                <td class="cell"><?php echo $dato['LOC'] ?></td>
+
+                <td class="cell">
+                  <?php echo $dato['tipo_establecimiento'] ?>
+                </td>
+
+                <td class="cell"><?php echo $dato['tipologia'] ?></td>
+                <td class="cell"><?php echo $dato['nombre_unidad'] ?></td>
+              </tr>
+              <?php endforeach ?>
+            </tbody>
+          </table>
+        </div>
+        <!---fin columna 2 r 2 -->
+      </div>
+      <!--renglon 2 fin-->
+    </div>
+    <!--//fin contenedor-->
+  </body>
+
+  <!--//funciones-->
+
+  <script>
+    var options = {
+      series: [
+        {
+          name: "Inflation",
+          data: [2.3, 3.1, 4.0, 10.1, 4.0, 3.6, 3.2, 2.3],
+        },
+      ],
+      chart: {
+        height: 200,
+        type: "bar",
+      },
+      plotOptions: {
+        bar: {
+          dataLabels: {
+            position: "top", // top, center, bottom
+          },
+        },
+      },
+      dataLabels: {
+        enabled: true,
+        formatter: function (val) {
+          return val + "%";
+        },
+        offsetY: -20,
+        style: {
+          fontSize: "12px",
+          colors: ["#ffffff"],
+        },
+      },
+
+      xaxis: {
+        categories: ["I", "II", "III", "IV", "V", "VI", "VII", "VIII"],
+        position: "top",
+        axisBorder: {
+          show: false,
+        },
+        axisTicks: {
+          show: false,
+        },
+        crosshairs: {
+          fill: {
+            type: "gradient",
+            gradient: {
+              colorFrom: "#D8E3F0",
+              colorTo: "#BED1E6",
+              stops: [0, 100],
+              opacityFrom: 0.4,
+              opacityTo: 0.5,
+            },
+          },
+        },
+        tooltip: {
+          enabled: true,
+        },
+      },
+      yaxis: {
+        axisBorder: {
+          show: false,
+        },
+        axisTicks: {
+          show: false,
+        },
+        labels: {
+          show: false,
+          formatter: function (val) {
+            return val + "%";
+          },
+        },
+      },
+      title: {
+        text: "Monthly Inflation in Argentina, 2002",
+        floating: true,
+        offsetY: 330,
+        align: "center",
+        style: {
+          color: "#444",
+        },
+      },
+    };
+
+    var chart = new ApexCharts(document.querySelector("#barrita"), options);
+    chart.render();
+
+    /////dona
+    var options = {
+      series: [66, 55, 41, 17, 15],
+      chart: {
+        type: "donut",
+        
+      },
+      labels: ['Team A', 'Team B', 'Team C', 'Team D', 'Team E'],
+  
+          color: '#ffffff',
+
+          
+      responsive: [
+        {
+          breakpoint: 480,
+          options: {
+            
+            chart: {
+              width: 100,
+              color: "#ffffff",
+              
+            },
+            legend: {
+              position: "bottom",
+              labels: {
+                  color: "#ffffff",
+                  useSeriesColors: false,
+              },
+            },
+            
+          },
+        },
+      ],
+    };
+
+    var chart = new ApexCharts(document.querySelector("#chart"), options);
+    chart.render();
+
+    function CargarDatosGraficosBar() {
+      $.ajax({
+        url: "controlador_grafico.php",
+        type: "POST",
+      }).done(function (resp) {
+        alert(resp);
+      });
+    }
+  </script>
+
+  <script src="js/mapa.js"></script>
+</html>

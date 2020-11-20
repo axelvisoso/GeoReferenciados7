@@ -1,0 +1,261 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Practica Final</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+	<script type="text/javascript" src="jquery.min.js"></script>
+
+    <style>
+
+
+
+        .tamañoTexto
+
+        {
+
+            font-size: 20px;
+
+        }
+
+
+
+        #mapa {
+
+            width: 100%;
+
+            height: 440px;
+
+        }
+
+
+
+        #textcolor{
+
+            color: #1b224b;
+
+            letter-spacing: 1px;
+
+            font-size: 25px;
+
+
+
+        }
+
+
+
+        .margenes {
+
+            margin: 15px;
+
+            padding: 0px;
+
+
+
+        }
+
+
+
+    </style>
+
+
+
+
+
+</head>
+
+
+
+<body>
+
+
+
+        <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+
+            <!-- logo -->
+
+                <a class="navbar-brand" href="#">
+
+                <img src="logoMARZblanco.png" alt="logo" style="width:80px;">
+
+                </a>
+
+
+
+                <!-- NavBar -->
+
+                <ul class="navbar-nav font-weight-bold tamañoTexto" >
+
+                <li class="nav-item">
+
+                    <a class="nav-link" href="#"  onclick="seleccionarmapa('1')">MAPA 1</a>
+
+                </li>
+
+                <li class="nav-item">
+
+                    <a class="nav-link" href="#" onclick="seleccionarmapa('2')" >MAPA 2</a>
+
+                </li>
+
+                <li class="nav-item">
+
+                    <a class="nav-link" href="#">MAPA 3</a>
+
+                </li>
+
+                <li class="nav-item">
+
+                    <a class="nav-link" href="#">MAPA 4</a>
+
+                </li>
+
+                <li class="nav-item">
+
+                    <a class="nav-link" href="#">MAPA 5</a>
+
+                </li>
+
+                </ul>
+
+        </nav>
+
+
+
+      <br>
+
+
+
+      <!-- content -->
+
+
+
+
+
+
+
+        <div class="row margenes">
+
+
+
+                <div class="col-8 text-center ">
+
+                    <h3 id="textcolor">MAPA</h3>
+
+
+
+
+
+                </div>
+
+
+
+                <div class="col-4 text-center">
+
+                    <h3 id="textcolor">INFORMACIÓN</h3>
+
+
+
+
+
+                </div>
+
+
+
+            </div>
+
+						<div class="row margenes" id ="mapas">
+
+
+
+
+							</div>
+
+						<script>
+
+
+								function seleccionarmapa(numero)
+						{
+
+
+              var mymapa = '';
+
+
+
+            	var mapita1="https://mexico.as.com/mexico/imagenes/2020/04/16/tikitakas/1586996211_347770_1586999118_noticia_normal.jpg";
+
+              var mapita2="";
+              var mapita3="";
+              var mapita4="";
+              var mapita5="";
+
+              alert(numero);
+
+						switch (numero) {
+						case '1':
+  alert('entra al 1');
+								mymapa += '<iframe style = "noder : node;" height = "800" width = "1200" src ='+mapita1+'></iframe>';
+									$("#mapas").html(mymapa);
+
+									break;
+              case '2':
+              alert('entra al 2');
+                mymapa =  '<iframe style = "noder : node;" height = "800" width = "1200" src ='+mapita2+'></iframe>';
+                  $("#mapa").html(mymapa);
+
+
+            break;
+            case '3':
+
+              mymapa = '<iframe style = "noder : node;" height = "800" width = "1200" src ='+mapita3+'></iframe>';
+                $("#mapa").html(mymapa);
+
+
+          break;
+
+          case '4':
+
+            mymapa = '<iframe style = "noder : node;" height = "800" width = "1200" src ='+mapita4+'></iframe>';
+              $("#mapa").html(mymapa);
+
+
+          break;
+
+          case '5':
+
+            mymapa = '<iframe style = "noder : node;" height = "800" width = "1200" src ='+mapita5+'></iframe>';
+              $("#mapa").html(mymapa);
+
+
+          break;
+
+
+
+				};
+
+
+
+
+
+};
+
+            </script>
+
+
+
+
+						</body>
+
+
+</html>
